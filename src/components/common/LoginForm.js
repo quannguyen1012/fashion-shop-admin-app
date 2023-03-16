@@ -17,11 +17,13 @@ const LoginForm = () => {
     setLoading(true);
     axios.post('http://localhost:8080/auth/login', values)
       .then((response) => {
-        console.log(response);
-        setToken(response.data.accessToken);
-        console.log(token);
-        localStorage.setItem('accessToken', response.data.accessToken);
-       navigate('/home');
+        const currentToken = response.data.accessToken;
+        setToken(currentToken);
+        localStorage.setItem('accessToken', currentToken);
+        if (currentToken){
+          navigate('/home');
+          window.location.reload();
+        }
       }
       )
       .catch((err) => {
